@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Firm Value Diagnostic Scorecard</title>
+<style>
+:root{--bg:#fbf6ec;--card:#fff;--ink:#17323f;--mut:#5b6f7b;--sea:#0e6f8c;--deep:#0a3d55;--coral:#ef7a5a;--palm:#2a8f6a;--line:#e3dccb;--good:#d9f0e4;--goodt:#17684a;--bad:#fde1d8;--badt:#a2381f;--neu:#dff0f6;--neut:#0a4f66;--inp:#fff8df;--dot:#d6dde2;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0d1b24;--card:#14262f;--ink:#e8f0f4;--mut:#9fb3be;--sea:#5fc3df;--line:#27404c;--good:#173a2d;--goodt:#8fdcb4;--bad:#43241d;--badt:#f5ab98;--neu:#17394a;--neut:#bfe6f3;--inp:#2b2a18;--dot:#35505d}}
+:root[data-theme="dark"]{--bg:#0d1b24;--card:#14262f;--ink:#e8f0f4;--mut:#9fb3be;--sea:#5fc3df;--line:#27404c;--good:#173a2d;--goodt:#8fdcb4;--bad:#43241d;--badt:#f5ab98;--neu:#17394a;--neut:#bfe6f3;--inp:#2b2a18;--dot:#35505d}
+*{box-sizing:border-box}html{color-scheme:light dark}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 "Trebuchet MS","Segoe UI",Arial,sans-serif}
+.hero{position:relative;overflow:hidden;background:linear-gradient(180deg,#083a52 0%,#0e6f8c 62%,#2aa3b8 100%);color:#fff;padding:34px 20px 92px}
+.hero svg.art{position:absolute;inset:0;width:100%;height:100%}
+.wrap{max-width:920px;margin:0 auto;padding:0 16px;position:relative}
+.hero .wrap{padding:0}
+.kick{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#ffd9a8;font-weight:700}
+h1{margin:6px 0 8px;font:700 clamp(28px,6vw,42px)/1.1 Georgia,"Times New Roman",serif}
+.hero p{margin:0;max-width:560px;color:#dff3f8;font-size:15px}
+main{margin-top:-58px;padding-bottom:36px;position:relative}
+h2{font:700 19px Georgia,serif;color:var(--sea);margin:28px 0 10px}
+.pass{background:var(--card);border:1px solid var(--line);border-radius:18px;box-shadow:0 8px 24px rgba(8,58,82,.12);overflow:hidden}
+.pass .top{background:linear-gradient(90deg,var(--coral),#f5a25d);color:#3b1606;padding:10px 18px;font-weight:700;font-size:13px;letter-spacing:.1em;text-transform:uppercase;display:flex;justify-content:space-between;gap:10px}
+.pass .body{padding:18px;border-bottom:2px dashed var(--line)}
+.pass .bot{padding:14px 18px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:14px}
+label{display:block;font-size:12px;font-weight:700;color:var(--mut);margin-bottom:4px;text-transform:uppercase;letter-spacing:.05em}
+input,select{width:100%;padding:11px 12px;font:inherit;border:1.5px solid var(--line);border-radius:10px;background:var(--inp);color:var(--ink)}
+input:focus,select:focus{outline:3px solid rgba(14,111,140,.3);border-color:var(--sea)}
+.hint{font-size:12px;color:var(--mut);margin-top:3px}
+.ratios{display:flex;flex-wrap:wrap;gap:10px}
+.ratio{flex:1 1 140px;background:var(--neu);border-radius:12px;padding:10px 14px}
+.ratio b{display:block;font-size:22px;color:var(--neut)}.ratio span{font-size:12px;color:var(--mut)}
+button{font:inherit;font-weight:700;padding:9px 16px;border-radius:999px;border:1.5px solid var(--sea);background:transparent;color:var(--sea);cursor:pointer;margin-top:10px}
+.res{display:grid;gap:14px}
+.chk{display:flex;gap:14px;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px;box-shadow:0 4px 14px rgba(8,58,82,.08)}
+.ic{flex:0 0 52px;height:52px;border-radius:50%;background:linear-gradient(135deg,var(--sea),#2aa3b8);color:#fff;display:flex;align-items:center;justify-content:center}
+.cb{flex:1;min-width:0}.chk h3{margin:0 0 4px;font-size:17px}
+.row{display:flex;flex-wrap:wrap;gap:4px 18px;font-size:14px;color:var(--mut);margin-bottom:8px}.row b{color:var(--ink)}
+.chip{display:inline-block;padding:4px 12px;border-radius:999px;font-weight:700;font-size:13px}
+.good{background:var(--good);color:var(--goodt)}.bad{background:var(--bad);color:var(--badt)}.neu{background:var(--neu);color:var(--neut)}
+.chk p{margin:10px 0 0;font-size:14px}.lab{display:block;font-weight:700;color:var(--mut);font-size:11px;text-transform:uppercase;letter-spacing:.07em;margin-bottom:2px}
+.ev{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--mut)}.dots{display:inline-flex;gap:4px}
+.dot{width:11px;height:11px;border-radius:50%;background:var(--dot);display:inline-block}.dot.on{background:var(--palm)}
+.act{background:var(--neu);border-radius:10px;padding:9px 12px}
+.sum{background:linear-gradient(90deg,var(--deep),var(--sea));color:#fff;border-radius:16px;padding:16px 18px;font-weight:700}
+ul{margin:0;padding-left:20px;font-size:14px;color:var(--mut)}li{margin-bottom:6px}
+.note{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px}
+footer{font-size:12px;color:var(--mut);padding-bottom:28px}
+@media(max-width:520px){.chk{flex-direction:column}}
+</style>
+</head>
+<body>
+<header class="hero"><svg class="art" viewBox="0 0 900 300" preserveAspectRatio="xMidYMax slice" aria-hidden="true"><circle cx="760" cy="96" r="62" fill="#ef7a5a" opacity=".95"/><circle cx="760" cy="96" r="92" fill="#ef7a5a" opacity=".22"/><path d="M0 250 C120 220 220 275 360 245 C500 215 600 270 760 240 C830 226 870 236 900 244 L900 300 L0 300Z" fill="#0a5470" opacity=".55"/><path d="M0 272 C140 250 260 292 420 266 C580 240 700 290 900 262 L900 300 L0 300Z" fill="#083a52" opacity=".75"/><g transform="translate(690 112) rotate(-12) scale(.8)" fill="#fff" opacity=".9"><path d="M0 20 L62 8 L96 -22 L106 -18 L90 12 L132 22 L132 30 L88 26 L72 46 L62 46 L66 26 L0 32Z"/></g></svg>
+<div class="wrap"><div class="kick">Firm Value Diagnostic</div><h1>Scorecard for Tourism-Related Firms</h1><p>Check how a hotel, resort, casino, airline, or port operator compares with the 12 PSE-listed tourism firms studied from 2018 to 2024.</p></div></header>
+<main class="wrap">
+<h2>1. Firm boarding pass</h2>
+<div class="pass"><div class="top"><span>Firm profile</span><span>Amounts in ₱ millions</span></div>
+<div class="body"><div class="grid">
+<div><label for="nm">Firm name</label><input id="nm" value="Sample Hotel Corporation"></div>
+<div><label for="sec">Subsector</label><select id="sec"><option>All firms</option><option selected>Hotel and Leisure</option><option>Casino and Gaming</option><option>Transportation Services</option></select></div>
+<div><label for="ni">Net income</label><input id="ni" type="number" step="any" value="850"><div class="hint">Net income after tax for the year</div></div>
+<div><label for="ta">Total assets</label><input id="ta" type="number" step="any" value="18000"></div>
+<div><label for="tl">Total liabilities</label><input id="tl" type="number" step="any" value="9500"></div>
+<div><label for="se">Shareholders’ equity</label><input id="se" type="number" step="any" value="8500"><div class="hint">Enter a negative number if equity is negative</div></div>
+</div></div>
+<div class="bot"><div class="ratios"><div class="ratio"><b id="rROA">–</b><span>Return on assets</span></div><div class="ratio"><b id="rDAR">–</b><span>Debt-to-assets ratio</span></div><div class="ratio"><b id="rDER">–</b><span>Debt-to-equity ratio</span></div></div>
+<button id="clr" type="button">Clear the example</button>
+<div class="hint" style="margin-top:8px">The values shown are an example only. Replace them with the firm’s own figures. Nothing you enter is saved or sent anywhere.</div></div></div>
+<h2>2. Your three checkpoints</h2>
+<div class="res" id="res"></div>
+<h2>3. Trip summary</h2>
+<div class="sum" id="sum"></div>
+<h2>How to read this scorecard</h2>
+<div class="note"><ul>
+<li>The benchmarks come from 12 PSE-listed tourism-related firms from 2018 to 2024 (84 firm-years). They describe the sector in that period and are not targets or predictions.</li>
+<li>Each check follows a significant result of the study: asset efficiency (ROA), firm size, and debt relative to equity. The study found relationships, not proof of cause and effect, and the debt result is the least stable of the three.</li>
+<li>The dots show how strong the evidence is for each check: three dots for the clearest result, one for the weakest.</li>
+<li>Net profit margin is not included because it had no significant relationship with price-to-book value.</li>
+<li>The scorecard does not predict price-to-book value. Use it to compare a firm with the sector and to identify areas for management to review.</li>
+<li>Subsector averages of return on assets are close to zero, so “All firms” or Casino and Gaming gives a more demanding comparison.</li>
+</ul></div>
+</main>
+<footer class="wrap">[Researchers]  |  [School / Program]  |  [Year]</footer>
+<script>
+var B={roa:{"All firms":0.0017777,"Hotel and Leisure":-0.0006108,"Casino and Gaming":0.0254915,"Transportation Services":-0.0035537},
+derMed:2.66056,derP75:5.15912,darP75:0.85017,taLo:11060.48,taHi:76133.998};
+var $=function(i){return document.getElementById(i)};
+var pct=function(x){return (x*100).toFixed(1)+"%"},num=function(x){return x.toLocaleString("en-US",{maximumFractionDigits:0})};
+var ICON={"Asset efficiency (ROA)":'<svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 14l8-2 6-8 2 1-3 8 6 2v2l-7-1-3 4h-2l1-5-8 1z"/></svg>',
+"Firm size (total assets)":'<svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="3" width="14" height="18" rx="1"/><path d="M9 7h2M13 7h2M9 11h2M13 11h2M9 15h2M13 15h2M11 21v-3h2v3"/></svg>',
+"Debt level (DER)":'<svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="5" r="2"/><path d="M12 7v14M8 11h8M5 15c0 3 3 6 7 6s7-3 7-6"/></svg>'};
+var EV={"Asset efficiency (ROA)":[3,"Strongest evidence"],"Firm size (total assets)":[2,"Consistent evidence"],"Debt level (DER)":[1,"Weaker evidence"]};
+function chk(title,val,bench,cls,status,find,act){var e=EV[title],d="";for(var k=1;k<=3;k++)d+='<i class="dot'+(k<=e[0]?' on':'')+'"></i>';
+return '<article class="chk"><div class="ic">'+ICON[title]+'</div><div class="cb"><h3>'+title+'</h3><div class="row"><span>Your value <b>'+val+'</b></span><span>Benchmark <b>'+bench+'</b></span></div><span class="chip '+cls+'">'+status+'</span><p><span class="lab">What the study found</span>'+find+'</p><p class="ev"><span class="dots" aria-hidden="true">'+d+'</span><span>'+e[1]+'</span></p><p class="act"><span class="lab">Suggested action to consider</span>'+act+'</p></div></article>'}
+function run(){
+ var ni=parseFloat($("ni").value),ta=parseFloat($("ta").value),tl=parseFloat($("tl").value),se=parseFloat($("se").value),sec=$("sec").value;
+ if([ni,ta,tl,se].some(isNaN)||ta<=0){$("res").innerHTML='<div class="card">Enter net income, total assets, total liabilities, and shareholders’ equity to see the results.</div>';$("sum").textContent="Waiting for complete inputs.";$("rROA").textContent=$("rDAR").textContent=$("rDER").textContent="–";return}
+ var roa=ni/ta,dar=tl/ta,der=se>0?tl/se:null,bm=B.roa[sec],flags=0,h="";
+ $("rROA").textContent=pct(roa);$("rDAR").textContent=pct(dar);$("rDER").textContent=der===null?"n/m":der.toFixed(2)+"x";
+ var s,c,a;
+ if(roa<0){s="Negative return on assets";c="bad";flags++;a="Review the assets and business units generating losses; consider repurposing or selling idle or low-earning assets and raising the use of existing facilities."}
+ else if(roa>=bm){s="At or above the benchmark";c="good";a="Maintain asset productivity and keep tracking return on assets by property, route, or business unit."}
+ else{s="Below the benchmark";c="bad";flags++;a="To reach the benchmark ROA, net income would need to be about ₱"+num(bm*ta)+" million at the current asset base (₱"+num(bm*ta-ni)+" million more). Raise the utilization of existing facilities, review low-earning assets, and link major spending to the expected return on the assets involved."}
+ h+=chk("Asset efficiency (ROA)",pct(roa),pct(bm),c,s,"Return on assets had a positive and significant relationship with price-to-book value. Evidence: the clearest result of the study.",a);
+ if(ta<=B.taLo){s="Smaller firm (lower third of the 12-firm data)";c="neu";a="Profits of smaller firms were rewarded less by the market in the study; growth through partnerships or joint ventures may be considered instead of debt-financed expansion."}
+ else if(ta<=B.taHi){s="Mid-sized firm";c="neu";a="Expand capacity only where demand is supported by evidence and check that growth in assets is matched by growth in earnings."}
+ else{s="Larger firm (upper third of the 12-firm data)";c="good";a="Check that growth in assets is matched by growth in earnings, since larger scale also brings higher costs and complexity."}
+ h+=chk("Firm size (total assets)","₱"+num(ta)+"M","upper third from ₱"+num(B.taHi)+"M",c,s,"Firm size strengthened the link between profitability and price-to-book value in most tests. Evidence: consistent across several size measures.",a);
+ if(se<=0){s="Not meaningful (equity is zero or negative)";c="bad";flags++;a="Rebuild equity first through retained earnings, restructuring, or additional capital, and disclose the equity position clearly."}
+ else if(der>B.derP75){s="High (upper quarter of the 12-firm data)";c="bad";flags++;a="Set a target range for debt ratios, repay costly debt using operating cash flow or asset sales, and stagger loan maturities."}
+ else if(der>B.derMed){s="Above the median";c="neu";a="Monitor debt ratios and avoid adding debt unless the return on the assets financed is expected to be higher."}
+ else{s="At or below the median";c="good";a="Keep debt at a manageable level and maintain committed credit lines."}
+ h+=chk("Debt level (DER)",der===null?"n/m":der.toFixed(2)+"x","median "+B.derMed.toFixed(2)+"x",c,s,"A higher debt-to-equity ratio weakened the link between profitability and price-to-book value. Evidence: weaker; the effect was sensitive to firm-years with very small or negative equity, so treat it as a tendency to watch.",a);
+ $("res").innerHTML=h;
+ $("sum").textContent=flags===0?"No priority flags. The firm is at or above the benchmark on asset efficiency and is not unusually leveraged.":flags+" priority flag(s) found. Review the suggested action for each flagged item above."
+}
+["nm","sec","ni","ta","tl","se"].forEach(function(i){$(i).addEventListener("input",run)});
+$("clr").addEventListener("click",function(){["ni","ta","tl","se"].forEach(function(i){$(i).value=""});$("nm").value="";$("ni").focus();run()});
+run();
+</script>
+</body>
+</html>
